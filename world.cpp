@@ -4,10 +4,7 @@ World::World(const int sz, const sf::Vector2u worldSize)
   : segmentSize_{ sz }
   , worldSize_{ worldSize }
 {
-  // initialize apple
-  apple_.setFillColor(sf::Color::Green);
-  apple_.setRadius(segmentSize_ / 2.0);
-
+  initializeApple();
   initializeWalls();
 }
 
@@ -16,6 +13,31 @@ void World::draw(sf::RenderWindow& r)
   for ( int i = 0; i < 4; ++i ) {
     r.draw(walls_[i]);
   }
+}
+
+/** Update the state of world.
+ */
+void World::update()
+{
+  // TODO: implemented as follow
+  //   - check if the snake can eat the apple
+  //   - check if the snake collides with the walls
+}
+
+void World::initializeApple()
+{
+  apple_.shape.setFillColor(sf::Color::Green);
+  apple_.shape.setRadius(segmentSize_ / 2.0);
+
+  createApple();
+}
+
+/** Create an apple at a random position in the world. The position must not be on the walls.
+ */
+void World::createApple()
+{
+  // DAY 2: Create an apple at a random position in the world. The position must not be on the
+  // walls.
 }
 
 void World::initializeWalls()
