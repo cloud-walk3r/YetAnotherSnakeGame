@@ -26,7 +26,7 @@ void World::update()
 
 void World::initializeApple()
 {
-  apple_.shape.setFillColor(sf::Color::Green);
+  apple_.shape.setFillColor(sf::Color{ 150, 0, 0 });
   apple_.shape.setRadius(segmentSize_ / 2.0);
 
   createApple();
@@ -43,7 +43,7 @@ void World::createApple()
 void World::initializeWalls()
 {
   for ( int i = 0; i < 4; ++i ) {
-    walls_[i].setFillColor(sf::Color::Red);
+    walls_[i].setFillColor(sf::Color{ 150, 0, 0 });
     if ( (i + 1) % 2 == 0 ) {
       walls_[i].setSize(sf::Vector2f(worldSize_.x * segmentSize_, segmentSize_));
     } else {

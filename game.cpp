@@ -1,11 +1,11 @@
 #include "game.h"
 
-const int SEGMENT_SIZE{ 20 };
+const int SEGMENT_SIZE{ 16 };
+const int SEGMENTS_X{ 60 };
+const int SEGMENTS_Y{ 45 };
 
 const std::string WINDOW_TITLE{ "Yet Another Snake Game" };
-
-const int SEGMENTS_X{ 40 };
-const int SEGMENTS_Y{ 30 };
+const int MAX_FPS{ 60 };
 
 /** Constructor: create world, snake and a render window.
  */
@@ -17,7 +17,12 @@ Game::Game()
 {
   renderWindow_.create(sf::VideoMode{ SEGMENTS_X * SEGMENT_SIZE, SEGMENTS_Y * SEGMENT_SIZE },
                        WINDOW_TITLE,
-                       sf::Style::Default);
+                       sf::Style::Titlebar | sf::Style::Close);
+
+  // Try to reduce CPU load in each running loop by setting framerate limit.
+  // After each sf::RenderWindow::display() call, the program will sleep a bit
+  // to ensure the current frame last long enough to match the framerate limit.
+  renderWindow_.setFramerateLimit(MAX_FPS);
 }
 
 /** Destructor: close the render window
