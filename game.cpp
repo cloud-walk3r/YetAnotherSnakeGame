@@ -1,8 +1,8 @@
 #include "game.h"
 
-const int SEGMENT_SIZE{ 16 };
-const int SEGMENTS_X{ 60 };
-const int SEGMENTS_Y{ 45 };
+const int SEGMENT_SIZE{ 20 };
+const int SEGMENTS_X{ 40 };
+const int SEGMENTS_Y{ 30 };
 
 const std::string WINDOW_TITLE{ "Yet Another Snake Game" };
 const int MAX_FPS{ 60 };
@@ -11,8 +11,8 @@ const int MAX_FPS{ 60 };
  */
 Game::Game()
   : segmentSize_{ SEGMENT_SIZE }
-  , world_(segmentSize_, sf::Vector2u{ SEGMENTS_X, SEGMENTS_Y })
   , snake_(segmentSize_)
+  , world_(segmentSize_, sf::Vector2u{ SEGMENTS_X, SEGMENTS_Y }, snake_)
   , isDone_{ false }
 {
   renderWindow_.create(sf::VideoMode{ SEGMENTS_X * SEGMENT_SIZE, SEGMENTS_Y * SEGMENT_SIZE },
@@ -51,6 +51,20 @@ void Game::checkInput()
   // If yes then set the direction of the snake by using Snake::direction(Direction)
   // Remember to check if we can set the new direction. For example, if the current direction is
   // Left then we cannot set the new direction to Right because the head will go back to the body.
+  if ( sf::Keyboard::isKeyPressed(sf::Keyboard::Up) && snake_.direction() != Direction::Down ) {
+    snake_.direction(Direction::Up);
+  } else if ( sf::Keyboard::isKeyPressed(sf::Keyboard::Right) &&
+              snake_.direction() != Direction::Left ) {
+    snake_.direction(Direction::Right);
+  } else if ( sf::Keyboard::isKeyPressed(sf::Keyboard::Down) &&
+              snake_.direction() != Direction::Up ) {
+    snake_.direction(Direction::Down);
+  } else if ( sf::Keyboard::isKeyPressed(sf::Keyboard::Left) &&
+              snake_.direction() != Direction::Right ) {
+    snake_.direction(Direction::Left);
+  }
+
+  if ( sf::Keyboard::isKeyPressed(sf::Keyboard::Escape) ) isDone_ = true;
 }
 
 /** Update the states of game after checking events and input

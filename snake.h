@@ -29,8 +29,10 @@ public:
 
   void draw(sf::RenderWindow&);
   void update();
+
   Direction direction() const { return dir_; }
   void direction(const Direction d) { dir_ = d; }
+  const SnakeBody& body() const { return body_; }
 
 private:
   SnakeBody body_;
@@ -38,5 +40,6 @@ private:
   sf::RectangleShape bodySegment_;  // shape used in rendering
   Direction dir_;
 
+  void initialize();
   void move();
 };

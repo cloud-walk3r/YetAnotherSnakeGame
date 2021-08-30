@@ -2,10 +2,12 @@
 
 #include <SFML/Graphics.hpp>
 
+class Snake;
+
 class World
 {
 public:
-  World(const int, const sf::Vector2u);
+  World(const int, const sf::Vector2u, const Snake&);
 
   void draw(sf::RenderWindow&);
   void update();
@@ -19,6 +21,7 @@ private:
     sf::CircleShape shape;
   } apple_;
   sf::RectangleShape walls_[4];
+  const Snake& snake_;
 
   void initializeApple();
   void initializeWalls();

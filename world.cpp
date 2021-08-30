@@ -1,18 +1,32 @@
 #include "world.h"
+#include "snake.h"
 
-World::World(const int sz, const sf::Vector2u worldSize)
+/** Construct a world containing walls and an apple.
+ *
+ * The world is a grid of segments and has 4 walls on the boundary and an apple
+ * generated at a random position. It also gets a reference to a snake so it can
+ * check the snake's position with the walls and the apple.
+ */
+World::World(const int sz, const sf::Vector2u worldSize, const Snake& snake)
   : segmentSize_{ sz }
   , worldSize_{ worldSize }
+  , snake_{ snake }
 {
+  // Initialize random generator
+  srand(time(nullptr));
+
   initializeApple();
   initializeWalls();
 }
 
+/** Draw the walls and the apple on the render window.
+ */
 void World::draw(sf::RenderWindow& r)
 {
   for ( int i = 0; i < 4; ++i ) {
     r.draw(walls_[i]);
   }
+  r.draw(apple_.shape);
 }
 
 /** Update the state of world.
@@ -32,12 +46,38 @@ void World::initializeApple()
   createApple();
 }
 
-/** Create an apple at a random position in the world. The position must not be on the walls.
+/** Check if a position is occupied by the snake body.
+ *
+ * @param 'pos' The position to be checked.
+ * @param 'body' Body of the snake.
+ *
+ * @return true if the position is occupied by the snake body.
+ *         Otherwise, returns false.
+ */
+static bool isOnSnake(const sf::Vector2i& pos, const SnakeBody& body)
+{
+  for ( const auto& c : body ) {
+    if ( pos == c.position ) return true;
+  }
+  return false;
+}
+
+/** Create an apple at a random position in the world.
  */
 void World::createApple()
 {
-  // DAY 2: Create an apple at a random position in the world. The position must not be on the
-  // walls.
+  // DAY 2: Create an apple at a random position in the world.
+
+  // The position must not be on the walls.
+  sf::Vector2i pos{ rand() % (worldSize_.x - 2) + 1, rand() % (worldSize_.y - 2) + 1 };
+
+  // and it must not be on the snake body :)
+  while ( isOnSnake(pos, snake_.body()) ) {
+    pos = { rand() % (worldSize_.x - 2) + 1, rand() % (worldSize_.y - 2) + 1 };
+  }
+
+  apple_.shape.setPosition(pos.x * segmentSize_, pos.y * segmentSize_);
+  apple_.position = pos;
 }
 
 void World::initializeWalls()
