@@ -7,7 +7,7 @@
  * generated at a random position. It also gets a reference to a snake so it can
  * check the snake's position with the walls and the apple.
  */
-World::World(const int sz, const sf::Vector2u worldSize, const Snake& snake)
+World::World(const int sz, const sf::Vector2u worldSize, Snake& snake)
   : segmentSize_{ sz }
   , worldSize_{ worldSize }
   , snake_{ snake }
@@ -33,9 +33,21 @@ void World::draw(sf::RenderWindow& r)
  */
 void World::update()
 {
-  // TODO: implemented as follow
+  // DAY 3: implemented as follow
+  auto snakePosition = snake_.body().front().position;
   //   - check if the snake can eat the apple
+  if ( snakePosition == apple_.position ) {
+    // TODO: extend the snake's body by 1
+    snake_.grow();
+    // create another apple
+    createApple();
+  }
+
   //   - check if the snake collides with the walls
+  if ( snakePosition.x <= 0 || snakePosition.x >= worldSize_.x - 1 || snakePosition.y <= 0 ||
+       snakePosition.y >= worldSize_.y - 1 ) {
+    snake_.isDead(true);
+  }
 }
 
 void World::initializeApple()

@@ -1,17 +1,19 @@
 #include "game.h"
+#include <iostream>
 
 const int SEGMENT_SIZE{ 20 };
 const int SEGMENTS_X{ 40 };
 const int SEGMENTS_Y{ 30 };
+const int SNAKE_LIVES{ 3 };
 
 const std::string WINDOW_TITLE{ "Yet Another Snake Game" };
-const int MAX_FPS{ 60 };
+const int MAX_FPS{ 10 };
 
 /** Constructor: create world, snake and a render window.
  */
 Game::Game()
   : segmentSize_{ SEGMENT_SIZE }
-  , snake_(segmentSize_)
+  , snake_(segmentSize_, SNAKE_LIVES)
   , world_(segmentSize_, sf::Vector2u{ SEGMENTS_X, SEGMENTS_Y }, snake_)
   , isDone_{ false }
 {
@@ -73,6 +75,11 @@ void Game::update()
 {
   snake_.update();
   world_.update();
+
+  if ( snake_.isDead() ) {
+    isDone_ = true;
+    std::cout << "GAME OVER!\n";
+  }
 }
 
 void Game::draw()

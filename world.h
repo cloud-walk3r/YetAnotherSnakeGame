@@ -7,21 +7,21 @@ class Snake;
 class World
 {
 public:
-  World(const int, const sf::Vector2u, const Snake&);
+  World(const int, const sf::Vector2u, Snake&);
 
   void draw(sf::RenderWindow&);
   void update();
 
 private:
   int segmentSize_;
-  sf::Vector2u worldSize_;
+  sf::Vector2i worldSize_;
   struct Apple
   {
     sf::Vector2i position;
     sf::CircleShape shape;
   } apple_;
   sf::RectangleShape walls_[4];
-  const Snake& snake_;
+  Snake& snake_;
 
   void initializeApple();
   void initializeWalls();

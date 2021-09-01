@@ -25,7 +25,7 @@ enum class Direction
 class Snake
 {
 public:
-  Snake(const int segmentSize);
+  Snake(const int segmentSize, const int lives);
 
   void draw(sf::RenderWindow&);
   void update();
@@ -34,12 +34,21 @@ public:
   void direction(const Direction d) { dir_ = d; }
   const SnakeBody& body() const { return body_; }
 
+  bool isDead() const { return isDead_; }
+  void isDead(const bool d) { isDead_ = d; }
+
+  void grow();
+
 private:
   SnakeBody body_;
   int segmentSize_;
   sf::RectangleShape bodySegment_;  // shape used in rendering
   Direction dir_;
 
+  int lives_;    // hold lives of snake
+  bool isDead_;  // check if snake is alive
+
   void initialize();
   void move();
+  void checkHeadCollidesWithBody();
 };
