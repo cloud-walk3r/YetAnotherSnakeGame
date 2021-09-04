@@ -37,6 +37,8 @@ public:
   bool isDead() const { return isDead_; }
   void isDead(const bool d) { isDead_ = d; }
 
+  int speed() const { return speed_; }
+
   void grow();
 
 private:
@@ -45,6 +47,7 @@ private:
   sf::RectangleShape bodySegment_;  // shape used in rendering
   Direction dir_;
 
+  int speed_;    // speed of updates
   int lives_;    // hold lives of snake
   bool isDead_;  // check if snake is alive
 

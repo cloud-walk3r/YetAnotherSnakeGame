@@ -2,6 +2,7 @@
 
 Snake::Snake(const int segmentSize, const int lives)
   : segmentSize_{ segmentSize }
+  , speed_{ 10 }
   , lives_{ lives }
   , isDead_{ false }
 {
@@ -39,7 +40,27 @@ void Snake::update()
 
 /** Extend the snake's body by one segment
  */
-void Snake::grow() {}
+void Snake::grow()
+{
+  if ( body_.size() < 2 ) return;
+
+  const auto& tail1 = body_.at(body_.size() - 1);
+  const auto& tail2 = body_.at(body_.size() - 2);
+
+  if ( tail1.position.x == tail2.position.x ) {
+    if ( tail1.position.y > tail2.position.y ) {
+      body_.emplace_back(tail1.position.x, tail1.position.y + 1);
+    } else {
+      body_.emplace_back(tail1.position.x, tail1.position.y - 1);
+    }
+  } else if ( tail1.position.y == tail2.position.y ) {
+    if ( tail1.position.x > tail2.position.x ) {
+      body_.emplace_back(tail1.position.x + 1, tail1.position.y);
+    } else {
+      body_.emplace_back(tail1.position.x - 1, tail1.position.y);
+    }
+  }
+}
 
 void Snake::initialize()
 {
@@ -91,6 +112,7 @@ void Snake::checkHeadCollidesWithBody()
     if ( body_[0].position == it->position ) {
       --lives_;
       // TODO: cut the body from the touch point to the end
+      body_.erase(it, body_.end());
       break;
     }
   }
