@@ -11,6 +11,7 @@ World::World(const int sz, const sf::Vector2u worldSize, Snake& snake)
   : segmentSize_{ sz }
   , worldSize_{ worldSize }
   , snake_{ snake }
+  , nApplesCreated_{ 0 }
 {
   // Initialize random generator
   srand(time(nullptr));
@@ -37,10 +38,14 @@ void World::update()
   auto snakePosition = snake_.body().front().position;
   //   - check if the snake can eat the apple
   if ( snakePosition == apple_.position ) {
-    // TODO: extend the snake's body by 1
+    // extend the snake's body by 1 segment
     snake_.grow();
+
     // create another apple
     createApple();
+
+    // Increase snake's speed by 1 after eating every 10 apples
+    if ( nApplesCreated_ % 10 == 1 ) { snake_.speed(snake_.speed() + 1); }
   }
 
   //   - check if the snake collides with the walls
@@ -90,6 +95,8 @@ void World::createApple()
 
   apple_.shape.setPosition(pos.x * segmentSize_, pos.y * segmentSize_);
   apple_.position = pos;
+
+  ++nApplesCreated_;
 }
 
 void World::initializeWalls()

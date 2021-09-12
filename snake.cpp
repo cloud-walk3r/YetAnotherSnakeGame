@@ -1,8 +1,8 @@
 #include "snake.h"
 
-Snake::Snake(const int segmentSize, const int lives)
+Snake::Snake(const int segmentSize, const int lives, const int speed)
   : segmentSize_{ segmentSize }
-  , speed_{ 10 }
+  , speed_{ speed }
   , lives_{ lives }
   , isDead_{ false }
 {

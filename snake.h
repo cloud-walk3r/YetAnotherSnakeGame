@@ -25,7 +25,7 @@ enum class Direction
 class Snake
 {
 public:
-  Snake(const int segmentSize, const int lives);
+  Snake(const int segmentSize, const int lives, const int speed);
 
   void draw(sf::RenderWindow&);
   void update();
@@ -37,7 +37,9 @@ public:
   bool isDead() const { return isDead_; }
   void isDead(const bool d) { isDead_ = d; }
 
+  int lives() const { return lives_; }
   int speed() const { return speed_; }
+  void speed(const int s) { speed_ = s; }
 
   void grow();
 

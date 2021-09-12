@@ -24,4 +24,10 @@ private:
   bool isDone_;
   float elapsedTime_;  // time passed since the game starts
   sf::Clock clock_;
+
+  sf::Text statusBar_;
+  sf::Font font_;
+
+  void initializeStatusBar();
+  void updateStatusBar();
 };
