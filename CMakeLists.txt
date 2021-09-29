@@ -14,8 +14,16 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin)
 set(SFML_DIR "D:/Dev/opt/lib/cmake/SFML")
 find_package(SFML COMPONENTS graphics window system REQUIRED)
 
-set(SOURCES main.cpp game.cpp snake.cpp world.cpp)
-set(HEADERS game.h snake.h world.h)
+set(SOURCES
+  main.cpp game.cpp snake.cpp world.cpp
+  mainmenustate.cpp gameplaystate.cpp gamepausestate.cpp gameoverstate.cpp
+  mainmenutextbox.cpp screentextbox.cpp
+)
+set(HEADERS
+  game.h snake.h world.h
+  gamestate.h mainmenustate.h gameplaystate.h gamepausestate.h gameoverstate.h
+  mainmenutextbox.h screentextbox.h
+)
 
 add_executable(snake ${SOURCES} ${HEADERS})
 target_link_libraries(snake
